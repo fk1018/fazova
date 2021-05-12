@@ -5,6 +5,10 @@
   "license": "MIT",
   "dependencies": {
     "@types/node": "^15.0.2",
+    "dotenv": "^9.0.2",
+    "puppeteer": "^9.1.1",
+    "puppeteer-extra": "^3.1.18",
+    "puppeteer-extra-plugin-stealth": "^2.7.8",
     "typescript": "^4.2.4"
   },
   "devDependencies": {
@@ -13,7 +17,7 @@
     "rimraf": "^3.0.2"
   },
   "scripts": {
-    "build":"rimraf dist && tsc",
-    "dev": "concurrently \"tsc --watch\" \"nodemon -q dist/index.js\""
+    "build": "rimraf dist && tsc",
+    "dev": "yarn build && node dist/index.js"
   }
 }

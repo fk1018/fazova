@@ -1,40 +1,31 @@
+const puppeteer = require("puppeteer-extra");
+const StealthPlugin = require("puppeteer-extra-plugin-stealth");
+const AdblockerPlugin = require('puppeteer-extra-plugin-adblocker')
+const proxyChain = require('proxy-chain');
 (async () => {
-  const puppeteer = require("puppeteer-extra");
-  const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 
   puppeteer.use(StealthPlugin());
+  puppeteer.use(AdblockerPlugin({ blockTrackers: true }))
+  
+  const oldProxyUrl = "http://R4PPiYpcNj:R4PPiYpcNj@us-general-4.resdleafproxies.com:19380";
+  const newProxyUrl = await proxyChain.anonymizeProxy(oldProxyUrl);
 
-  const browser = await puppeteer.launch({ 
-    headless: true,
-    args: [ '--proxy-server=us-general-1.resdleafproxies.com:12579' ]
+  // Prints something like "http://127.0.0.1:45678"
+  console.log(newProxyUrl);
+
+  const browser = await puppeteer.launch({
+    args: [`--proxy-server=${newProxyUrl}`],
   });
+  // Do your magic here...
   const page = await browser.newPage();
-  await page.authenticate({
-    username:'R4PPiYpcNj',
-    password:'R4PPiYpcNj'
-  })
-  const navigationPromise = page.waitForNavigation();
+  await page.setViewport({ width: 800, height: 600 })
 
-  await page.goto("https://www.whatismyip.com/");
-  await page.setViewport({ width: 3440, height: 1309 });
-  await navigationPromise;
+  await page.goto("https://whatismyip.com");
+  await page.waitForTimeout(5000)
+  await page.screenshot({ path: "example.png", fullPage:true });
+  await browser.close();
 
-  // await page.waitForSelector("#login-form #email");
-  // await page.click("#login-form #email");
-  // await page.type("#login-form #email", "");
-
-  // await page.waitForSelector("#login-form #pass");
-  // await page.click("#login-form #pass");
-  // await page.type("#login-form #pass", "");
-
-  // await page.waitForSelector(
-  //   ".block-content > #login-form > #send2 > span > span"
-  // );
-  // await page.click(".block-content > #login-form > #send2 > span > span");
-
-  // await navigationPromise;
-
-  await page.screenshot({ path: "testresult.png", fullPage: true });
-
+  await proxyChain.closeAnonymizedProxy(newProxyUrl, true);
+  
   await browser.close();
 })();

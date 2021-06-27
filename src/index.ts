@@ -21,26 +21,9 @@ const proxyChain = require('proxy-chain');
 
   const navigationPromise = page.waitForNavigation()
   await page.setViewport({ width: 800, height: 600 })
-  await page.goto('https://proshop.innovadiscs.com/customer/account/login/')
+  await page.goto('https://tilted.io')
 
   await navigationPromise
-  
-  await page.waitForSelector('#login-form #email')
-  await page.click('#login-form #email')
-  await page.type('#login-form #email', '')
-
-  await page.waitForSelector('.block-slider > .flex-viewport > .slides > .flex-active-slide > .block-content')
-  await page.click('.block-slider > .flex-viewport > .slides > .flex-active-slide > .block-content')
-  
-  await page.waitForSelector('#login-form #pass')
-  await page.click('#login-form #pass')
-  await page.type('#login-form #pass', '')
-
-  await page.waitForSelector('.block-content > #login-form > #send2 > span > span')
-  await page.click('.block-content > #login-form > #send2 > span > span')
-  
-  await navigationPromise
-
 
   await page.waitForTimeout(10000)
   await page.screenshot({ path: "example.png", fullPage:true });

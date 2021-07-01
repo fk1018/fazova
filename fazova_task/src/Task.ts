@@ -31,6 +31,7 @@ export const Task = async () => {
   await page.screenshot({ path: "example.png", fullPage:true });
   
   await browser.close();
+  return true;
 }
 
 export interface FaszLaunchOptions extends LaunchOptions {

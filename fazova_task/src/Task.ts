@@ -2,7 +2,7 @@ import { LaunchOptions } from 'puppeteer';
 import puppeteer from 'puppeteer-extra';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 import Adblocker from 'puppeteer-extra-plugin-adblocker'
-(async () => {
+export const Task = async () => {
 
   puppeteer.use(StealthPlugin());
   puppeteer.use(Adblocker({ blockTrackers: true }))
@@ -31,8 +31,8 @@ import Adblocker from 'puppeteer-extra-plugin-adblocker'
   await page.screenshot({ path: "example.png", fullPage:true });
   
   await browser.close();
-})();
+}
 
-interface FaszLaunchOptions extends LaunchOptions {
+export interface FaszLaunchOptions extends LaunchOptions {
   args: string[]
 }
